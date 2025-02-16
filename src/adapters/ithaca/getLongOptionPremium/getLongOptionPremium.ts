@@ -37,7 +37,7 @@ const createClientOrderId = (value: number = 101): number => {
 	return Date.now() * Math.pow(2, 10) + value;
 };
 
-export const getLongOptionPremium = async (expiry: number, strike: number) => {
+export const getLongOptionPremium = async (expiry: number, strike: number): Promise<number> => {
 	try {
 		const {
 			data: { payload: contractList }
@@ -72,7 +72,9 @@ export const getLongOptionPremium = async (expiry: number, strike: number) => {
 
 		console.log("Premium:", premium.toFixed(4));
 		console.log("Protocol Fees:", orderFees.numeraireAmount);
+		return premium;
 	} catch (error) {
 		console.error("Failed to calculate premium", error);
+		return 0;
 	}
 };

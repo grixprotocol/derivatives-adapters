@@ -19,7 +19,7 @@ type Contract = {
 	tradeable: boolean;
 };
 
-export const listStrikePricesByExpiry = async () => {
+export const listStrikePricesByExpiry = async (expiry: number): Promise<number[]> => {
 	try {
 		const {
 			data: { payload }
@@ -48,7 +48,10 @@ export const listStrikePricesByExpiry = async () => {
 				console.log(`Strikes for expiry ${expiry}:`, strikes.sort());
 			}
 		}
+
+		return strikePricesByExpiry[expiry];
 	} catch (error) {
 		console.error("Failed to fetch strike prices by expiry", error);
+		return [];
 	}
 };

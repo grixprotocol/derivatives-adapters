@@ -19,7 +19,7 @@ type Contract = {
 	tradeable: boolean;
 };
 
-export const fetchExpiryDates = async () => {
+export const fetchExpiryDates = async (): Promise<number[]> => {
 	try {
 		const {
 			data: { payload }
@@ -37,7 +37,10 @@ export const fetchExpiryDates = async () => {
 		}, []);
 
 		console.log("Expiry dates:", expiryList); // YYMMDDHHm format
+
+		return expiryList;
 	} catch (error) {
 		console.error("Failed to fetch expiry dates", error);
+		return [];
 	}
 };
