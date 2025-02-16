@@ -2,7 +2,7 @@ import { ProtocolAdapter } from "../../types/adapter";
 import { fetchExpiries } from "./fetchExpiryDates";
 import { getLongOptionPremium } from "./getLongOptionPremium";
 import { getShortOptionPremium } from "./getShortOptionPremium";
-import { getBoard } from "./helpers/getOptionsBoard";
+import { listStrikePricesByExpiry } from "./listStrikePricesByExpiry";
 
 /**
  * @title Protocol Adapter Implementation Guide
@@ -39,6 +39,10 @@ const testParams = {
     getShortOptionPremium: {
         instrument_name: 'BTC-17FEB25-97000-P', // Required: Valid instrument identifier
     },
+    listStrikePricesByExpiry: {
+        expiry: 1739779200, // Required: Valid expiry timestamp
+        asset: 'BTC', // Required: Base asset symbol
+    },
 } as const;
 
 /**
@@ -55,6 +59,7 @@ export const deribitAdapter: ProtocolAdapter = {
     fetchExpiryDates: fetchExpiries,
     getLongOptionPremium: getLongOptionPremium,
     getShortOptionPremium: getShortOptionPremium,
+    listStrikePricesByExpiry: listStrikePricesByExpiry,
     testParams,
 };
 
