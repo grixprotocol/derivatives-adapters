@@ -26,6 +26,6 @@ jobs:
         run: npm test
         
       - name: Check adapter structure
-        run: node scripts/check-adapter-structure.js
+        run: npx ts-node scripts/check-adapter-structure.ts
         env:
           GITHUB_EVENT_PATH: ${{ github.event_path }} 
