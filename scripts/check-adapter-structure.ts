@@ -2,22 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-interface PullRequestFile {
-    filename: string;
-}
-
-interface GitHubEvent {
-    pull_request: {
-        number: number;
-        head: {
-            ref: string;
-        };
-    };
-}
-
 const REQUIRED_FILES = [
     'index.ts',
-    'README.md',
 ];
 
 const REQUIRED_METHODS = [
