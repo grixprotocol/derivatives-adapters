@@ -1,18 +1,16 @@
-import { MobyBoardData, MobyBoardOptionsPerExpiry, OlpStats } from "../types";
+import { MobyBoardData } from "../types";
   
-export const fetchExpiryDates = async (): Promise<number[]> => {
-    const assets = ['BTC', 'ETH'];
-    const expiries: number[] = [];
+interface FetchExpiryDatesParams {
+    asset: string;
+}
+
+export const fetchExpiryDates = async (params: FetchExpiryDatesParams): Promise<number[]> => {
+    const { asset } = params;
     const mobyApi = 'https://api.moby.trade/v1/market/all';
 
-    for (const asset of assets) {
-        
-        const response = await fetch(`${mobyApi}`);
-        const data: MobyBoardData = await response.json();
-        const fetchedExpiries = data.data.market[asset as keyof typeof data.data.market].expiries;
+    const response = await fetch(`${mobyApi}`);
+    const data: MobyBoardData = await response.json();
+    const fetchedExpiries = data.data.market[asset as keyof typeof data.data.market].expiries;
 
-        expiries.push(...fetchedExpiries);
-    }
-
-    return expiries;
+    return fetchedExpiries;
   };

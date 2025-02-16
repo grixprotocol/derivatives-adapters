@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { deribitAdapter } from '../src/adapters/deribit';
+import { mobyAdapter } from '../src/adapters/moby';
 import { ProtocolAdapter } from '../src/types/adapter'; 
 
 function testAdapter(name: string, adapter: ProtocolAdapter) {
@@ -33,3 +34,4 @@ function testAdapter(name: string, adapter: ProtocolAdapter) {
 }
 
 testAdapter('Deribit', deribitAdapter);
+testAdapter('Moby', mobyAdapter); 
