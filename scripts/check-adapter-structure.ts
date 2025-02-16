@@ -17,7 +17,6 @@ interface GitHubEvent {
 
 const REQUIRED_FILES = [
     'index.ts',
-    'README.md',
 ];
 
 const REQUIRED_METHODS = [
