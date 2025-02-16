@@ -17,6 +17,7 @@ interface GitHubEvent {
 
 const REQUIRED_FILES = [
     'index.ts',
+    'README.md',
 ];
 
 const REQUIRED_METHODS = [
@@ -79,8 +80,15 @@ function validateAdapter(adapterName: string): boolean {
 
     // Check adapter structure
     try {
-        const adapter = require(path.join(adapterPath, 'index.ts')).default;
+        // Import the adapter module and get the named export
+        const adapterModule = require(path.join(adapterPath, 'index.ts'));
+        const adapter = adapterModule[`${adapterName}Adapter`];
         
+        if (!adapter) {
+            console.error(`No adapter export found in ${adapterName} (expected: ${adapterName}Adapter)`);
+            return false;
+        }
+
         // Verify all required methods exist
         for (const method of REQUIRED_METHODS) {
             if (typeof adapter[method] !== 'function') {
