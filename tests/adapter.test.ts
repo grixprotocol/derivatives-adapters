@@ -1,7 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
-import { ithacaAdapter } from '../src/adapters/ithaca';
+import { mobyAdapter } from '../src/adapters/moby';
 import { ProtocolAdapter } from '../src/types/adapter'; 
-import { zommaAdapter } from '../src/adapters/zomma';
 
 function testAdapter(name: string, adapter: ProtocolAdapter) {
   describe(`${name} Adapter`, () => {
@@ -27,8 +26,4 @@ function testAdapter(name: string, adapter: ProtocolAdapter) {
   });
 }
 
-// Test the Ithaca adapter
-testAdapter('Ithaca', ithacaAdapter);
-
-// Export for use in other test files
-export { testAdapter, type ProtocolAdapter }; 
+testAdapter('Moby', mobyAdapter);
