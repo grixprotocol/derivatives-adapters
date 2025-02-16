@@ -8,7 +8,10 @@ interface PullRequestFile {
 
 interface GitHubEvent {
     pull_request: {
-        changed_files: PullRequestFile[];
+        number: number;
+        head: {
+            ref: string;
+        };
     };
 }
 
@@ -28,13 +31,16 @@ function getChangedAdapters(): string[] {
     try {
         // If in PR (CI environment)
         if (process.env.GITHUB_EVENT_PATH) {
+            // Get the PR number from the event
             const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')) as GitHubEvent;
-            const changedFiles = event.pull_request.changed_files
-                .map((file) => file.filename)
-                .filter((file: string) => file.startsWith('src/adapters/'));
+            
+            // Use git diff to get changed files
+            const gitDiff = execSync(`git diff --name-only origin/main...${event.pull_request.head.ref}`).toString();
+            const changedFiles = gitDiff.split('\n')
+                .filter(file => file.startsWith('src/adapters/'));
             
             // Get unique adapter directories
-            return [...new Set(changedFiles.map((file: string) => {
+            return [...new Set(changedFiles.map(file => {
                 const match = file.match(/src\/adapters\/([^\/]+)/);
                 return match ? match[1] : null;
             }).filter((name): name is string => name !== null))];
