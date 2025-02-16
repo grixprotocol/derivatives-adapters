@@ -16,8 +16,7 @@ jobs:
       
       - name: Fetch main branch
         run: |
-          git remote add origin https://github.com/${{ github.repository }}.git
-          git fetch origin main:main
+          git fetch origin main:main || true  # Continue even if main branch exists
       
       - name: Setup Node.js
         uses: actions/setup-node@v3

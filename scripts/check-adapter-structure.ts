@@ -31,11 +31,8 @@ function getChangedAdapters(): string[] {
     try {
         // If in PR (CI environment)
         if (process.env.GITHUB_EVENT_PATH) {
-            // Get the PR number from the event
-            const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')) as GitHubEvent;
-            
-            // Use git diff to get changed files
-            const gitDiff = execSync(`git diff --name-only origin/main...${event.pull_request.head.ref}`).toString();
+            // Get changed files using git diff against main
+            const gitDiff = execSync('git diff --name-only main HEAD').toString();
             const changedFiles = gitDiff.split('\n')
                 .filter(file => file.startsWith('src/adapters/'));
             
