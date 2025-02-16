@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
-import { deribitAdapter } from '../src/adapters/deribit';
-import { mobyAdapter } from '../src/adapters/moby';
-import { ProtocolAdapter } from '../src/types/adapter'; 
+import { deribitAdapter } from '../adapters/deribit';
+import { mobyAdapter } from '../adapters/moby';
+import { ProtocolAdapter } from '../types/adapter'; 
 
 function testAdapter(name: string, adapter: ProtocolAdapter) {
   describe(`${name} Adapter`, () => {
@@ -29,6 +29,17 @@ function testAdapter(name: string, adapter: ProtocolAdapter) {
       );
       console.log('getShortOptionPremium premium ->', premium);
       expect(typeof premium).toBe('number');
+    });
+    test('implements listStrikePricesByExpiry', async () => {
+      expect(adapter.listStrikePricesByExpiry).toBeDefined();
+      const strikePrices = await adapter.listStrikePricesByExpiry(
+        adapter.testParams.listStrikePricesByExpiry
+      );
+      console.log('listStrikePricesByExpiry strikePrices ->', strikePrices);
+      expect(Array.isArray(strikePrices)).toBe(true);
+      strikePrices?.forEach(price => {
+        expect(typeof price).toBe('number');
+      });
     });
   });
 }
