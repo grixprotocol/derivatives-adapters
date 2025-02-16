@@ -47,3 +47,76 @@ Thank you for contributing to Grix! Your efforts help us build a robust, communi
 | **Hegic**         | [⏳](./hegic/fetchExpiryDates/CONTRIBUTE.md)        | [⏳](./hegic/listStrikePricesByExpiry/CONTRIBUTE.md)        | [⏳](./hegic/getLongOptionPremium/CONTRIBUTE.md)        | [⏳](./hegic/getShortOptionPremium/CONTRIBUTE.md)        | [⏳](./hegic/buyOptionContract/CONTRIBUTE.md)        | [⏳](./hegic/addOptionToPosition/CONTRIBUTE.md)        | [⏳](./hegic/exerciseOptionContract/CONTRIBUTE.md)        | [⏳](./hegic/sellOptionBackToIssuer/CONTRIBUTE.md)        | [⏳](./hegic/transferOptionOwnership/CONTRIBUTE.md)        | [⏳](./hegic/getEstimatedClosedValue/CONTRIBUTE.md)        |
 | **Gamma Swap**    | [⏳](./gamma-swap/fetchExpiryDates/CONTRIBUTE.md)   | [⏳](./gamma-swap/listStrikePricesByExpiry/CONTRIBUTE.md)   | [⏳](./gamma-swap/getLongOptionPremium/CONTRIBUTE.md)   | [⏳](./gamma-swap/getShortOptionPremium/CONTRIBUTE.md)   | [⏳](./gamma-swap/buyOptionContract/CONTRIBUTE.md)   | [⏳](./gamma-swap/addOptionToPosition/CONTRIBUTE.md)   | [⏳](./gamma-swap/exerciseOptionContract/CONTRIBUTE.md)   | [⏳](./gamma-swap/sellOptionBackToIssuer/CONTRIBUTE.md)   | [⏳](./gamma-swap/transferOptionOwnership/CONTRIBUTE.md)   | [⏳](./gamma-swap/getEstimatedClosedValue/CONTRIBUTE.md)   |
 | **Siren**         | [⏳](./siren/fetchExpiryDates/CONTRIBUTE.md)        | [⏳](./siren/listStrikePricesByExpiry/CONTRIBUTE.md)        | [⏳](./siren/getLongOptionPremium/CONTRIBUTE.md)        | [⏳](./siren/getShortOptionPremium/CONTRIBUTE.md)        | [⏳](./siren/buyOptionContract/CONTRIBUTE.md)        | [⏳](./siren/addOptionToPosition/CONTRIBUTE.md)        | [⏳](./siren/exerciseOptionContract/CONTRIBUTE.md)        | [⏳](./siren/sellOptionBackToIssuer/CONTRIBUTE.md)        | [⏳](./siren/transferOptionOwnership/CONTRIBUTE.md)        | [⏳](./siren/getEstimatedClosedValue/CONTRIBUTE.md)        |
+
+## Implementing a New Protocol Adapter
+
+### Overview
+To integrate a new protocol with Grix, you'll need to implement an adapter that follows our standardized interface. Each adapter must provide three core functions and include test parameters for validation.
+
+### Required Methods
+1. fetchExpiryDates: Returns available expiry dates for options
+2. getLongOptionPremium: Calculates premium for buying an option
+3. getShortOptionPremium: Calculates premium for selling an option
+
+### Implementation Steps
+
+1. Create a new directory under src/adapters with your protocol name:
+   src/adapters/your-protocol/
+
+2. Create an index.ts file with the following structure:
+
+   src/adapters/your-protocol/index.ts
+   
+   Required sections:
+   - Protocol Adapter Implementation Guide header
+   - Test parameters definition
+   - Adapter implementation with required methods
+   - Export of the adapter object
+
+3. Define your test parameters:
+   
+   Your test parameters must:
+   - Use real instrument names/assets from your protocol
+   - Return valid responses from your protocol's API
+   - Include all required fields for each method
+   
+   Example structure:
+   const testParams = {
+     fetchExpiryDates: {
+       asset: "ETH",  // Base asset symbol
+     },
+     getLongOptionPremium: {
+       instrument_name: "ETH-30JUN24-3000-C",
+     },
+     getShortOptionPremium: {
+       instrument_name: "ETH-30JUN24-3000-C",
+     },
+   }
+
+4. Implement the required methods:
+   - fetchExpiryDates: Must return an array of timestamps
+   - getLongOptionPremium: Must return a number representing the premium
+   - getShortOptionPremium: Must return a number representing the premium
+
+5. Test your implementation:
+   - Run npm test to verify your adapter
+   - Ensure all test cases pass
+   - Verify real API responses work as expected
+
+### Best Practices
+- Keep your implementation clean and well-documented
+- Handle errors gracefully
+- Use TypeScript types for better code safety
+- Follow existing adapter examples for consistency
+- Test with real protocol data
+
+### Example Implementation
+For a complete example, see:
+- Moby adapter: src/adapters/moby/index.ts
+- Deribit adapter: src/adapters/deribit/index.ts
+
+### Need Help?
+- Check our example PRs in the repository
+- Join our community discussions
+- Review existing implementations for guidance
+- Reach out to our team for support
