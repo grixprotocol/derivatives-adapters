@@ -1,0 +1,35 @@
+name: Adapter Tests
+
+on:
+  pull_request:
+    paths:
+      - 'src/adapters/**'
+      - 'src/tests/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for changed files detection
+      
+      - name: Fetch main branch
+        run: |
+          git fetch origin main:main || true  # Continue even if main branch exists
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run tests
+        run: npm test
+        
+      - name: Check adapter structure
+        run: npx ts-node scripts/check-adapter-structure.ts
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }} 
