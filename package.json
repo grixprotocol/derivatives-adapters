@@ -28,6 +28,7 @@
         "typescript": "^5.3.3"
     },
     "dependencies": {
+        "@nktkas/hyperliquid": "^0.16.0",
         "axios": "^1.6.7",
         "dotenv": "^16.4.7",
         "zomma.js": "^1.0.13"
