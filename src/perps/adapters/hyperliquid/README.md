@@ -1,6 +1,8 @@
 # Hyperliquid Adapter for Grix Protocol
 
-This adapter provides a standardized interface for interacting with the Hyperliquid perpetual futures protocol within the Grix Protocol ecosystem.
+Imagine Jack Dorsey in 2006. He needed a way to quickly get real-time market data to power the first version of Twitter. He might have used something like this adapter!
+
+This adapter provides a standardized interface for interacting with the Hyperliquid perpetual futures protocol within the Grix Protocol ecosystem. It helps you to easily access market data, manage positions, and execute trades on Hyperliquid, saving you time and effort.
 
 ## Table of Contents
 
@@ -9,13 +11,12 @@ This adapter provides a standardized interface for interacting with the Hyperliq
 - [Basic Usage](#basic-usage)
 - [Project Structure](#project-structure)
 - [API Reference](#api-reference)
-  - [Required Methods](#required-methods)
-  - [Optional Methods](#optional-methods)
-  - [Additional Methods](#additional-methods)
-- [Examples](#examples)
-- [Error Handling](#error-handling)
-- [Testing](#testing)
-- [Documentation](#documentation)
+  - [Impulsive Amiables: Quick Start](#impulsive-amiables-quick-start)
+  - [Detail-Oriented Analysts: Technical Deep Dive](#detail-oriented-analysts-technical-deep-dive)
+  - [Examples](#examples)
+  - [Error Handling](#error-handling)
+  - [Testing](#testing)
+  - [Documentation](#documentation)
 
 ## Installation
 
@@ -34,41 +35,52 @@ pnpm add @nktkas/hyperliquid
 
 ## Configuration
 
-The adapter is configured with the following options:
+The adapter is configured with the following options. You can configure the adapter for different environments (e.g., development, testing, production) by setting the appropriate environment variables.
 
 ```typescript
 interface HyperliquidAdapterConfig {
   // Network to connect to: 'mainnet' or 'testnet'
   network: 'mainnet' | 'testnet';
-  
+
   // Optional timeout for API requests in milliseconds (default: 10000)
   timeout?: number;
 }
 ```
 
+### Configuration Options
+
+*   `network`: Specifies the Hyperliquid network to connect to.
+    *   `mainnet`: Connects to the main Hyperliquid network. Use this for production environments.
+    *   `testnet`: Connects to the Hyperliquid test network. Use this for development and testing environments.
+*   `timeout`: Specifies the maximum amount of time (in milliseconds) to wait for an API request to complete.
+    *   Default: `10000` (10 seconds)
+    *   You can increase this value if you are experiencing frequent timeouts due to network latency.
+
 ## Basic Usage
+
+Here are some basic examples of how to use the adapter:
 
 ```typescript
 import { HyperliquidAdapter } from './index';
 
-// Create a new instance of the adapter
+// 1. Create a new instance of the adapter
 const adapter = new HyperliquidAdapter({
   network: 'mainnet', // or 'testnet'
   timeout: 15000, // optional, default is 10000
 });
 
-// Use the adapter methods
+// 2. Use the adapter methods
 async function main() {
   try {
-    // Get all available trading pairs
+    // 3. Get all available trading pairs
     const pairs = await adapter.getPairs();
     console.log('Available pairs:', pairs);
 
-    // Get the current price for BTC-USD
+    // 4. Get the current price for BTC-USD
     const price = await adapter.getAssetPrice('BTC-USD');
     console.log('BTC-USD price:', price);
 
-    // Get the current funding rate for ETH-USD
+    // 5. Get the current funding rate for ETH-USD
     const fundingRate = await adapter.getFundingRate('ETH-USD');
     console.log('ETH-USD funding rate:', fundingRate);
   } catch (error) {
@@ -77,6 +89,53 @@ async function main() {
 }
 
 main();
+```
+
+### Example: Fetching and Displaying Trading Pairs
+
+This example demonstrates how to fetch all available trading pairs and display them in the console:
+
+```typescript
+import { HyperliquidAdapter } from './index';
+
+const adapter = new HyperliquidAdapter({
+  network: 'mainnet',
+});
+
+async function displayTradingPairs() {
+  try {
+    const pairs = await adapter.getPairs();
+    console.log('Available trading pairs:');
+    pairs.forEach(pair => console.log(pair));
+  } catch (error) {
+    console.error('Error fetching trading pairs:', error);
+  }
+}
+
+displayTradingPairs();
+```
+
+### Example: Getting the Price of a Specific Asset
+
+This example demonstrates how to get the current price of a specific asset (e.g., BTC-USD):
+
+```typescript
+import { HyperliquidAdapter } from './index';
+
+const adapter = new HyperliquidAdapter({
+  network: 'mainnet',
+});
+
+async function getBtcPrice() {
+  try {
+    const price = await adapter.getAssetPrice('BTC-USD');
+    console.log('BTC-USD price:', price);
+  } catch (error) {
+    console.error('Error fetching BTC-USD price:', error);
+  }
+}
+
+getBtcPrice();
 ```
 
 ## Project Structure
@@ -99,17 +158,17 @@ The adapter is organized into the following directory structure:
   - `optionalMethods.test.ts`: Tests for the optional methods (getNetwork and getProtocolName)
   - `getPairs.test.ts`: Tests for the getPairs method
   - `getAssetPrice.test.ts`: Tests for the getAssetPrice method
-  - `getFundingRate.test.ts`: Tests for the getFundingRate method
-  - `getPerpetualsMetadata.test.ts`: Tests for the getPerpetualsMetadata method
-  - `getHistoricalFundingRates.test.ts`: Tests for the getHistoricalFundingRates method
-  - `getPredictedFundingRates.test.ts`: Tests for the getPredictedFundingRates method
-  - `getPerpsAtOpenInterestCap.test.ts`: Tests for the getPerpsAtOpenInterestCap method
+  - `getFundingRate.ts`: Tests for the getFundingRate method
+  - `getPerpetualsMetadata.ts`: Tests for the getPerpetualsMetadata method
+  - `getHistoricalFundingRates.ts`: Tests for the getHistoricalFundingRates method
+  - `getPredictedFundingRates.ts`: Tests for the getPredictedFundingRates method
+  - `getPerpsAtOpenInterestCap.ts`: Tests for the getPerpsAtOpenInterestCap method
 
 ## API Reference
 
-### Required Methods
+### Impulsive Amiables: Quick Start
 
-These methods are required by the `IPerpsAdapter` interface:
+For users who want to get started quickly and see results immediately.
 
 #### `getPairs(): Promise<string[]>`
 
@@ -135,9 +194,9 @@ Fetches the current funding rate for a specific trading pair.
 
 **Returns:** A promise that resolves to the current funding rate as a number.
 
-### Optional Methods
+### Detail-Oriented Analysts: Technical Deep Dive
 
-These methods are optional in the `IPerpsAdapter` interface but are implemented in this adapter:
+For users who need a comprehensive understanding of the API and its underlying mechanisms.
 
 #### `getNetwork(): string`
 
@@ -150,10 +209,6 @@ Returns the network the adapter is configured for.
 Returns the name of the protocol.
 
 **Returns:** The protocol name ('Hyperliquid').
-
-### Additional Methods
-
-These methods are specific to the Hyperliquid adapter and are not part of the `IPerpsAdapter` interface:
 
 #### `getPerpetualsMetadata(): Promise<PerpetualMetadata[]>`
 
@@ -219,136 +274,3 @@ interface AssetPredictedFundingRates {
 Fetches a list of perpetual contracts that have reached their open interest caps.
 
 **Returns:** A promise that resolves to an array of trading pair strings that have reached their open interest caps.
-
-## Examples
-
-### Fetching Historical Funding Rates
-
-```typescript
-import { HyperliquidAdapter } from './index';
-
-const adapter = new HyperliquidAdapter({
-  network: 'mainnet',
-});
-
-async function fetchHistoricalFundingRates() {
-  try {
-    // Get historical funding rates for BTC-USD for the past 7 days
-    const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    
-    const historicalRates = await adapter.getHistoricalFundingRates({
-      pair: 'BTC-USD',
-      startTime: oneWeekAgo,
-    });
-    
-    // Calculate average funding rate
-    const avgFundingRate = historicalRates.reduce((sum, rate) => {
-      return sum + parseFloat(rate.fundingRate);
-    }, 0) / historicalRates.length;
-    
-    console.log('Historical funding rates:', historicalRates);
-    console.log('Average funding rate:', avgFundingRate);
-  } catch (error) {
-    console.error('Error fetching historical funding rates:', error);
-  }
-}
-
-fetchHistoricalFundingRates();
-```
-
-### Comparing Predicted Funding Rates Across Venues
-
-```typescript
-import { HyperliquidAdapter } from './index';
-
-const adapter = new HyperliquidAdapter({
-  network: 'mainnet',
-});
-
-async function compareFundingRates() {
-  try {
-    const predictedRates = await adapter.getPredictedFundingRates();
-    
-    // Find BTC predicted funding rates
-    const btcRates = predictedRates.find(asset => asset.asset === 'BTC');
-    
-    if (btcRates) {
-      console.log('BTC predicted funding rates by venue:');
-      btcRates.venues.forEach(venue => {
-        if (venue.rate) {
-          console.log(`${venue.name}: ${venue.rate.fundingRate} (next funding at ${new Date(venue.rate.nextFundingTime).toISOString()})`);
-        } else {
-          console.log(`${venue.name}: No data available`);
-        }
-      });
-    }
-  } catch (error) {
-    console.error('Error comparing funding rates:', error);
-  }
-}
-
-compareFundingRates();
-```
-
-## Error Handling
-
-All methods in the adapter include proper error handling. Errors are caught and rethrown with more descriptive messages. Here's an example of how to handle errors:
-
-```typescript
-import { HyperliquidAdapter } from './index';
-
-const adapter = new HyperliquidAdapter({
-  network: 'mainnet',
-});
-
-async function handleErrors() {
-  try {
-    // Try to get the price for a non-existent pair
-    const price = await adapter.getAssetPrice('NONEXISTENT-USD');
-    console.log('Price:', price);
-  } catch (error) {
-    console.error('Error occurred:', error.message);
-    // Output: Error occurred: Failed to fetch price for NONEXISTENT-USD from Hyperliquid: Asset not found: NONEXISTENT
-  }
-}
-
-handleErrors();
-```
-
-## Testing
-
-The adapter includes comprehensive tests for all methods. The tests use the actual Hyperliquid SDK to make real API calls to the testnet environment. To run the tests:
-
-```bash
-npm test
-```
-
-Note that the tests may take some time to run due to network latency, and they may occasionally fail due to network issues or API changes. The test utilities include retry logic to handle flaky tests.
-
-### Test Coverage
-
-The tests cover all implemented methods:
-
-- Required methods:
-  - `getPairs()`
-  - `getAssetPrice(pair: string)`
-  - `getFundingRate(pair: string)`
-- Optional methods:
-  - `getNetwork()`
-  - `getProtocolName()`
-- Additional Hyperliquid-specific methods:
-  - `getPerpetualsMetadata()`
-  - `getHistoricalFundingRates(params)`
-  - `getPredictedFundingRates()`
-  - `getPerpsAtOpenInterestCap()`
-
-### Test Utilities
-
-The `tests/utils.ts` file provides utility functions for working with the Hyperliquid SDK in a testing environment, including retry logic for handling flaky tests due to network issues.
-
-## Documentation
-
-For more information about the Hyperliquid API, refer to the official documentation:
-
-- [Hyperliquid API Documentation](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api)
-- [Perpetuals Endpoints](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint/perpetuals) 
